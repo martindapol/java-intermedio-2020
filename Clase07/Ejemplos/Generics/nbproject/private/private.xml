@@ -14,5 +14,15 @@
             <file>file:/home/george/source/javaint/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/collections/comparations/ComparadorVehiculosPorDescripcion.java</file>
             <file>file:/home/george/source/javaint/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/colecciones/Pilas.java</file>
         </group>
+        <group>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/datos.txt</file>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/generics/vehiculos/Automovil.java</file>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/VehiculoDao.java</file>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/generics/vehiculos/Vehiculo.java</file>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/ListVehiculoDao.java</file>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/FileVehiculoDao.java</file>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/objects/StringTest.java</file>
+            <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/generics/vehiculos/Colectivo.java</file>
+        </group>
     </open-files>
 </project-private>

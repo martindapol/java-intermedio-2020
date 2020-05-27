@@ -26,7 +26,7 @@ public class ColasTest {
          // Cola con prioridad, que utiliza el hecho de que Vehículo es Comparable
          Queue<Vehiculo> priorityModelo  = new PriorityQueue<>();   
          // Cola con prioridad que utiliza este Comparator para la prioridad
-         Queue<Vehiculo> priorityPatente = new PriorityQueue<>(new ComparadorVehiculosPorPatente());    
+         Queue<Vehiculo> priorityPatente = new PriorityQueue<>(0,new ComparadorVehiculosPorPatente());    
          
          // Aquí se espera que paguen en el orden que ingresaron a la cola
          System.out.println("\n>>> La atención del peaje en una Cola simple se ve así: \n");
