@@ -28,6 +28,8 @@ public class PilasTest {
             Character c = pila.pop();
             System.out.print(c);
         }
+
+        assert pila.isEmpty() : "La pila debería estar vacía!";
         
         System.out.println();
     }

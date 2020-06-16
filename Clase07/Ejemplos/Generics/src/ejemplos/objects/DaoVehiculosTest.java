@@ -22,7 +22,7 @@ public class DaoVehiculosTest {
     public static void main(String[] args) {
         //Crear el dao:
         VehiculoDao dao = new FileVehiculoDao();
-        List<Vehiculo> lst = dao.getAll();
+        List<Vehiculo> lst = dao.getPatentesViejas();
         if (lst != null) {
             for (Vehiculo v : lst) {
                 System.out.println(v.toString());

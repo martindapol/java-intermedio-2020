@@ -6,6 +6,7 @@
 package ejemplos.dao;
 
 import ejemplos.generics.vehiculos.Vehiculo;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -14,8 +15,8 @@ import java.util.List;
  * @author MARTIN
  */
 public interface VehiculoDao {
-    List<Vehiculo> getAll();
-    Vehiculo getByPatente(String patente);
-    List<Vehiculo> getPatentesViejas();
-    List<Vehiculo> getPatentesNuevas();
+    List<Vehiculo> getAll() throws DAOException;
+    Vehiculo getByPatente(String patente) throws DAOException;
+    List<Vehiculo> getPatentesViejas() throws DAOException;
+    List<Vehiculo> getPatentesNuevas() throws DAOException;
 }
