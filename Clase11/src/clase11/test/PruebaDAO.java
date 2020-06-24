@@ -8,9 +8,7 @@ package clase11.test;
 import clase11.dao.DAOException;
 import clase11.dao.VehiculoDAO;
 import clase11.dao.VehiculoDAOFileImpl;
-import clase11.entidades.Automovil;
 import clase11.entidades.Vehiculo;
-import java.util.List;
 
 /**
  *

@@ -5,14 +5,13 @@
  */
 package clase11.dao;
 
+import clase11.entidades.Usuario;
+
 /**
  *
- * @author george
+ * @author MARTIN
  */
-public class DAOException extends Exception {
-
-    public DAOException(String msg, Throwable t)  {
-        super(msg, t);
-    }
-
+public interface UsuarioDao {
+    public void create(Usuario user) throws DAOException;
+    public Usuario validateUser(String user, String pass) throws DAOException;
 }
