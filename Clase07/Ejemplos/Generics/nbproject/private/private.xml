@@ -12,13 +12,6 @@
             <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/objects/StringTest.java</file>
             <file>file:/C:/Users/MARTIN/Desktop/2020/Java/Oracle%20Java%20Intermedio/Repo%20Git/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/generics/vehiculos/Colectivo.java</file>
         </group>
-        <group name="JavaINT2002">
-            <file>file:/home/george/source/javaint/repo/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/ListVehiculoDao.java</file>
-            <file>file:/home/george/source/javaint/repo/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/colecciones/PilasTest.java</file>
-            <file>file:/home/george/source/javaint/repo/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/DAOException.java</file>
-            <file>file:/home/george/source/javaint/repo/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/VehiculoDao.java</file>
-            <file>file:/home/george/source/javaint/repo/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/ValidadorPatentes.java</file>
-            <file>file:/home/george/source/javaint/repo/java-intermedio-2020/Clase07/Ejemplos/Generics/src/ejemplos/dao/FileVehiculoDao.java</file>
-        </group>
+        <group name="JavaINT2002"/>
     </open-files>
 </project-private>
