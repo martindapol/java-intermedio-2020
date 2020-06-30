@@ -1,6 +1,0 @@
-1994, "Ford Fiesta", "ZQR 123"
-2015, "Honda Biz", "099 XCC"
-2000, "Fiat Siena", "AC 755 AD"
-2009, "WV Gol", "QR 877 SD"
-2019, "Renualt Clio", "AD 999"
-2020, "Renualt Fluence", "AD 666 DF"
