@@ -61,6 +61,11 @@ public class JFLogin extends javax.swing.JFrame {
         jLabel2.setText("Clave:");
 
         jbIngresar.setText("Ingresar");
+        jbIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbIngresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +103,10 @@ public class JFLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIngresarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbIngresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

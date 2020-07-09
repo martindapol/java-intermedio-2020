@@ -7,10 +7,6 @@ package com.javaint.gui;
 
 import com.javaint.servicios.Gestor;
 import com.javaint.servicios.ThreadImportacion;
-import java.awt.Image;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,8 +19,8 @@ import javax.swing.ImageIcon;
 public class JFramePrincipal extends javax.swing.JFrame {
 
     private final Gestor gestor;
-    private Thread threadReloj;
-    private Thread threadImp;
+    //private Thread threadReloj;
+    //private Thread threadImp;
 
     /**
      * Creates new form JFramePrincipal
@@ -34,39 +30,12 @@ public class JFramePrincipal extends javax.swing.JFrame {
     public JFramePrincipal(final Gestor gestor) {
         initComponents();
         this.gestor = gestor;
-
         this.jlNombreUsuario.setText("Usuario:" + gestor.getUserLog().getNombre());
-
-        this.threadReloj = new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    lblReloj.setText(getHoraActual());
-                    try {
-                        Thread.sleep(1_000);
-                    } catch (InterruptedException ie) {
-                    }
-                }
-
-            }
-
-        };
-
-        this.threadReloj.start();
-        
-        this.threadImp = new ThreadImportacion(
-                Paths.get(
-                        "workspace"
-                )
-        );
-        this.threadImp.start();
-
+        this.jlImagen.setIcon(new ImageIcon(gestor.getUserAvatar()));
+        //completar código aquí para llenar la JTable con las aplicaciones disponibles
+        //para el usuario logueado.
     }
 
-    private String getHoraActual() {
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:MM:ss");
-        return sdf.format(new Date());
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,8 +49,8 @@ public class JFramePrincipal extends javax.swing.JFrame {
         jlNombreUsuario = new javax.swing.JLabel();
         jlUsuario = new javax.swing.JLabel();
         jlImagen = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        lblReloj = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtAplicaciones = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
@@ -89,20 +58,38 @@ public class JFramePrincipal extends javax.swing.JFrame {
         jlNombreUsuario.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         jlNombreUsuario.setText("Usuario logueado:");
 
-        jButton1.setText("Refrescar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jtAplicaciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Id", "Descripcion", "Precio"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-
-        lblReloj.setBackground(new java.awt.Color(255, 250, 250));
-        lblReloj.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jtAplicaciones.setRowHeight(20);
+        jScrollPane1.setViewportView(jtAplicaciones);
+        if (jtAplicaciones.getColumnModel().getColumnCount() > 0) {
+            jtAplicaciones.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jlImagen))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -110,70 +97,32 @@ public class JFramePrincipal extends javax.swing.JFrame {
                         .addComponent(jlUsuario)
                         .addGap(0, 66, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblReloj, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jlNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jlNombreUsuario)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jlImagen))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jlImagen)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlNombreUsuario)
-                        .addGap(36, 36, 36))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblReloj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jlNombreUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(209, 209, 209))
+                .addGap(79, 79, 79)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        Thread t = new Thread() {
-
-            @Override
-            public void run() {
-                jButton1.setEnabled(false);
-                ImageIcon original = new ImageIcon(gestor.getUserAvatar());
-                ImageIcon avatar = new ImageIcon(
-                        original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH)
-                );
-                try {
-                    Thread.sleep(10_000);
-                } catch (InterruptedException ie) {
-                }
-                jlImagen.setIcon(avatar);
-                jButton1.setEnabled(true);
-            }
-
-        };
-
-        t.start();
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlImagen;
     private javax.swing.JLabel jlNombreUsuario;
     private javax.swing.JLabel jlUsuario;
-    private javax.swing.JLabel lblReloj;
+    private javax.swing.JTable jtAplicaciones;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,13 +5,17 @@
  */
 package com.javaint.servicios;
 
+import com.javaint.dao.AplicacionDao;
+import com.javaint.dao.AplicacionDaoJDBC;
 import com.javaint.dao.UsuarioDao;
-import com.javaint.dao.UsuarioDaoFile;
+import com.javaint.dao.UsuarioDaoJDBC;
+import com.javaint.entidades.Aplicacion;
 import com.javaint.entidades.Usuario;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  *
@@ -21,6 +25,8 @@ import java.nio.file.Paths;
 public class Gestor {
 
     private final UsuarioDao dao;
+    private final AplicacionDao daoApp;
+    
     private Usuario userLog;
 
     public Usuario getUserLog() {
@@ -28,7 +34,8 @@ public class Gestor {
     }
 
     public Gestor() {
-        dao = new UsuarioDaoFile();
+        dao = new UsuarioDaoJDBC();
+        daoApp = new AplicacionDaoJDBC();
     }
 
     public boolean login(String user, String pass) {
@@ -80,5 +87,10 @@ public class Gestor {
         return Paths.get("workspace", this.userLog.getNombre(), "avatar.png").
                 toAbsolutePath().toString();
     }
+    
+    public List<Aplicacion> getAplicacionesDisponibles(int id){
+        return daoApp.getAplicacionesDisponibles(id);
+    }
+    
 
 }
