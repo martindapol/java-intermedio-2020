@@ -5,12 +5,14 @@
  */
 package com.javaint.gui;
 
-import com.javaint.servicios.Gestor;
-import com.javaint.servicios.ThreadImportacion;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.javaint.entidades.Aplicacion;
+import com.javaint.servicios.GestorAplicaciones;
+import com.javaint.servicios.GestorUsuarios;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -18,7 +20,9 @@ import javax.swing.ImageIcon;
  */
 public class JFramePrincipal extends javax.swing.JFrame {
 
-    private final Gestor gestor;
+    private final GestorUsuarios gestorUsuarios;
+    private final GestorAplicaciones gestorApps;
+    private final AppTableModel tableModel;
     //private Thread threadReloj;
     //private Thread threadImp;
 
@@ -27,15 +31,17 @@ public class JFramePrincipal extends javax.swing.JFrame {
      *
      * @param gestor
      */
-    public JFramePrincipal(final Gestor gestor) {
+    public JFramePrincipal(final GestorUsuarios gestor) {
         initComponents();
-        this.gestor = gestor;
+        this.gestorUsuarios = gestor;
         this.jlNombreUsuario.setText("Usuario:" + gestor.getUserLog().getNombre());
         this.jlImagen.setIcon(new ImageIcon(gestor.getUserAvatar()));
-        //completar código aquí para llenar la JTable con las aplicaciones disponibles
-        //para el usuario logueado.
-    }
+        this.gestorApps = new GestorAplicaciones(gestor.getUserLog());
+        this.tableModel = new AppTableModel(gestorApps);
+        this.jtAplicaciones.setModel(this.tableModel);
+        
 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,17 +52,19 @@ public class JFramePrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jlNombreUsuario = new javax.swing.JLabel();
         jlUsuario = new javax.swing.JLabel();
-        jlImagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtAplicaciones = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jlImagen = new javax.swing.JLabel();
+        jlNombreUsuario = new javax.swing.JLabel();
+        btComprar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
-
-        jlNombreUsuario.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
-        jlNombreUsuario.setText("Usuario logueado:");
 
         jtAplicaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -77,52 +85,135 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtAplicaciones.setRowHeight(20);
+        jtAplicaciones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jtAplicaciones.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jtAplicaciones);
         if (jtAplicaciones.getColumnModel().getColumnCount() > 0) {
             jtAplicaciones.getColumnModel().getColumn(2).setResizable(false);
         }
 
+        jlNombreUsuario.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        jlNombreUsuario.setText("Usuario logueado:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jlNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlImagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jlNombreUsuario)
+                        .addContainerGap())))
+        );
+
+        btComprar.setText("Comprar");
+        btComprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btComprarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Publicar App");
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jlImagen))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(560, 560, 560)
-                        .addComponent(jlUsuario)
-                        .addGap(0, 66, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jlNombreUsuario)))
-                .addContainerGap())
-            .addComponent(jScrollPane1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jlUsuario))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btComprar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtBuscar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jlImagen)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jlUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlNombreUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jlUsuario)
-                .addGap(79, 79, 79)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btComprar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btComprarActionPerformed
+        int filaSeleccionada = jtAplicaciones.getSelectedRow();
+        if(filaSeleccionada != -1){
+            Aplicacion app = this.tableModel.getAplicacion(filaSeleccionada);
+            JFrameCompra frameCompra = new JFrameCompra(app);
+            
+            frameCompra.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Debe seleccionar una aplicación!", "Compra", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btComprarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try{
+            tableModel.filtrar(txtBuscar.getText());
+        }catch(RuntimeException re){
+            re.printStackTrace();
+            JOptionPane.showMessageDialog(rootPane, "Problema al buscar!");
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btComprar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlImagen;
     private javax.swing.JLabel jlNombreUsuario;
     private javax.swing.JLabel jlUsuario;
     private javax.swing.JTable jtAplicaciones;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

@@ -14,8 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -75,7 +73,7 @@ public class UsuarioDaoFile implements UsuarioDao {
     }
 
     private List<Usuario> getAll() {
-        List<Usuario> lst = null;
+        List<Usuario> lst;
 
         try (FileInputStream fis = new FileInputStream(FILE_USERS);
                 ObjectInputStream ois = new ObjectInputStream(fis)) {

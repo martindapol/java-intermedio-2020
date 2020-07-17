@@ -11,26 +11,28 @@ import java.io.Serializable;
  *
  * @author MARTIN
  */
-public class Usuario implements Serializable{
-    
+public class Usuario implements Serializable {
+
+    private int id;
     private String nombre;
     private Password pass;
-
-    public Usuario() {
-        nombre = "admin";
-        pass = new Password();
-    }
-
-    public Usuario(String nombre) {
-        this.nombre = nombre;
-        this.pass = new Password();
-    }
     
     public Usuario(String nombre, String pass){
-           this.nombre = nombre;    
-           this.pass = new Password(pass);
+        this(0, nombre, pass);
     }
 
+    public Usuario(int id, String nombre, String pass) {
+        this.id = id;
+        this.nombre = nombre;
+        this.pass = new Password(pass);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    
+    
     public String getNombre() {
         return nombre;
     }
@@ -51,9 +53,9 @@ public class Usuario implements Serializable{
     public String toString() {
         return "Usuario: " + this.getNombre();
     }
-    
-    public boolean validatePass(String pass){
+
+    public boolean validatePass(String pass) {
         return this.pass.validate(pass);
     }
-   
+
 }

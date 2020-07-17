@@ -18,7 +18,7 @@ public class Generador {
     public static void main(String[] args) {
         UsuarioDao dao = new UsuarioDaoFile();
 
-        Usuario u = new Usuario("nuevo", "nuevo");
+        Usuario u = new Usuario(1, "nuevo", "nuevo");
         dao.create(u);
     }
 

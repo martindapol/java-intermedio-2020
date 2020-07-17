@@ -5,6 +5,7 @@
  */
 package com.javaint.dao;
 
+import com.javaint.config.Configuracion;
 import com.javaint.entidades.Aplicacion;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -21,33 +22,70 @@ import java.util.List;
  */
 public class AplicacionDaoJDBC implements AplicacionDao {
 
-    private static final String[] PARAMS = {"jdbc:mysql://localhost:3333/example?serverTimezone=UTC", "111mil", "111mil"};
+    private Configuracion config;
+
+    public AplicacionDaoJDBC() {
+        this.config = Configuracion.getInstance();
+    }
+
+    @Override
+    public List<Aplicacion> getAplicacionesDisponiblesFiltradas(int idUsuario, String filtro) {
+        List<Aplicacion> aux = new LinkedList<>();
+
+        String query = "SELECT t.* "
+                + " FROM aplicaciones  t,  aplicaciones_usuario t1"
+                + " WHERE t1.id_aplicacion = t.id_aplicacion "
+                + " AND t.nombre LIKE ? "
+                + " AND t1.id_usuario <> ?";
+
+        try (Connection cnn = DriverManager.getConnection(config.getConnectionString(), config.getDbUserName(), config.getDbPassword());
+                PreparedStatement ps = cnn.prepareStatement(query)) {
+
+            ps.setString(1, "%" + filtro + "%");
+            ps.setInt(2, idUsuario);
+            
+            ResultSet rs = ps.executeQuery();
+
+            Aplicacion app = null;
+            while (rs.next()) {
+                app = new Aplicacion(rs.getInt(1), rs.getString(2), rs.getFloat(3));
+                aux.add(app);
+            }
+            rs.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al recuperar las aplicaciones disponibles!", e);
+        }
+
+        return aux;
+    }
 
     @Override
     public List<Aplicacion> getAplicacionesDisponibles(int idUsuario) {
         List<Aplicacion> aux = new LinkedList<>();
+
         String query = "SELECT t.* "
                 + " FROM aplicaciones  t,  aplicaciones_usuario t1"
                 + " WHERE t1.id_aplicacion = t.id_aplicacion"
                 + " AND t1.id_usuario <> ?";
 
-        try(Connection cnn = DriverManager.getConnection(PARAMS[0],PARAMS[1],PARAMS[2]);
-                PreparedStatement  ps= cnn.prepareStatement(query)) {
-                
-                ps.setInt(1, idUsuario);
-                ResultSet rs =  ps.executeQuery();
-               
-                Aplicacion app = null;
-                while(rs.next()){
-                    app = new Aplicacion(rs.getInt(1), rs.getString(2),rs.getFloat(3));
-                    aux.add(app);
-                }
-                rs.close();
-            
+        try (Connection cnn = DriverManager.getConnection(config.getConnectionString(), config.getDbUserName(), config.getDbPassword());
+                PreparedStatement ps = cnn.prepareStatement(query)) {
+
+            ps.setInt(1, idUsuario);
+            ResultSet rs = ps.executeQuery();
+
+            Aplicacion app = null;
+            while (rs.next()) {
+                app = new Aplicacion(rs.getInt(1), rs.getString(2), rs.getFloat(3));
+                aux.add(app);
+            }
+            rs.close();
+
         } catch (SQLException e) {
             throw new RuntimeException("Error al recuperar las aplicaciones disponibles!");
         }
-   
+
         return aux;
     }
 

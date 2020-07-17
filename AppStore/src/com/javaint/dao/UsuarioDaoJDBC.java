@@ -5,6 +5,7 @@
  */
 package com.javaint.dao;
 
+import com.javaint.config.Configuracion;
 import com.javaint.entidades.Usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,13 +19,18 @@ import java.sql.Statement;
  * @author MARTIN
  */
 public class UsuarioDaoJDBC implements UsuarioDao {
+    
+    private final Configuracion config;
+    
+    public UsuarioDaoJDBC(){
+        this.config = Configuracion.getInstance();
+    }
 
-   private static final String[] PARAMS = {"jdbc:mysql://localhost:3333/example?serverTimezone=UTC", "111mil", "111mil"};
-
-  @Override
+    @Override
     public boolean create(Usuario u) {
         int rows = 0;
-        try (Connection cnn = DriverManager.getConnection(PARAMS[0], PARAMS[1], PARAMS[2]);
+        try (Connection cnn = DriverManager.getConnection(
+                config.getConnectionString(), config.getDbUserName(), config.getDbPassword());
                 Statement stm = cnn.createStatement()) {
             //Values('admin', '123')...
             rows = stm.executeUpdate("INSERT INTO usuarios (nombre_usuario, password) VALUES('"
@@ -39,22 +45,21 @@ public class UsuarioDaoJDBC implements UsuarioDao {
     public Usuario validate(String nombre, String pass) {
         String query = "SELECT * FROM usuarios WHERE nombre_usuario = ? AND password = ?";
         Usuario aux = null;
-        try (Connection cnn = DriverManager.getConnection(PARAMS[0], PARAMS[1], PARAMS[2]);
-                PreparedStatement ps = cnn.prepareStatement(query)
-               ) {
-           
+        Configuracion config = Configuracion.getInstance();
+        try (Connection cnn = DriverManager.getConnection(config.getConnectionString(), config.getDbUserName(), config.getDbPassword());
+                PreparedStatement ps = cnn.prepareStatement(query)) {
+
             ps.setString(1, nombre);
             ps.setString(2, pass);
             ResultSet rs = ps.executeQuery();
-            if (rs.next())
-                aux = new Usuario(rs.getString(2), rs.getString(3));
+            if (rs.next()) {
+                aux = new Usuario(rs.getInt(1), rs.getString(2), rs.getString(3));
+            }
             rs.close();
         } catch (SQLException sqle) {
-            throw new RuntimeException("Error de BD!");
+            throw new RuntimeException("Error de BD!", sqle);
         }
         return aux;
     }
 
-   
-   
 }

@@ -22,27 +22,24 @@ import java.util.List;
  * @author MARTIN Una clase de servicios que nos conecte con los datos y no
  * resuelva la lógica de negocio.
  */
-public class Gestor {
+public class GestorUsuarios {
 
     private final UsuarioDao dao;
-    private final AplicacionDao daoApp;
-    
+
     private Usuario userLog;
 
     public Usuario getUserLog() {
         return userLog;
     }
 
-    public Gestor() {
+    public GestorUsuarios() {
         dao = new UsuarioDaoJDBC();
-        daoApp = new AplicacionDaoJDBC();
     }
 
     public boolean login(String user, String pass) {
         boolean loginOK;
         userLog = dao.validate(user, pass);
-        
-        
+
         loginOK = userLog != null;
         try {
             checkFirstLogin(user);
@@ -52,6 +49,11 @@ public class Gestor {
         return loginOK;
     }
 
+    
+    public void crearUsuario(String nombre, String password){
+        Usuario usuario = new Usuario(nombre, password);
+        this.dao.create(usuario);
+    }
     /**
      * Chequea si existe su directorio de trabajo "workspace/userName". Si no
      * existe, es el primer login y lo crea, copiando la imagen por defecto al
@@ -82,15 +84,9 @@ public class Gestor {
         if (userLog == null) {
             throw new RuntimeException("No hay usuario logueado");
         }
-        
-        
+
         return Paths.get("workspace", this.userLog.getNombre(), "avatar.png").
                 toAbsolutePath().toString();
     }
-    
-    public List<Aplicacion> getAplicacionesDisponibles(int id){
-        return daoApp.getAplicacionesDisponibles(id);
-    }
-    
 
 }

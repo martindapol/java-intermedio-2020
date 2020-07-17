@@ -7,7 +7,7 @@ package com.javaint.gui;
 
 import com.javaint.dao.UsuarioDao;
 import com.javaint.dao.UsuarioDaoFile;
-import com.javaint.servicios.Gestor;
+import com.javaint.servicios.GestorUsuarios;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,15 +23,15 @@ import javax.swing.JOptionPane;
  */
 public class JFLogin extends javax.swing.JFrame {
 
-    private Gestor gestor;
+    private GestorUsuarios gestor;
 
     /**
      * Creates new form JFLogin
      */
     public JFLogin() {
         initComponents();
-        gestor = new Gestor();
-        
+        gestor = new GestorUsuarios();
+
         this.jbIngresar.addActionListener(new JBIngresarListener(this));
         this.jbIngresar.setForeground(Color.RED);
         this.setResizable(false);
@@ -135,11 +135,17 @@ public class JFLogin extends javax.swing.JFrame {
                     || pass.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Usuario y/o clave pueden quedar vacíos!", "Validación", JOptionPane.ERROR_MESSAGE);
             } else {
-                if (!gestor.login(user, pass)) {
-                    JOptionPane.showMessageDialog(null, "Usuario y/o pass incorrectos!", "Login", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    parent.dispose();
-                    new JFramePrincipal(gestor).setVisible(true);
+                try {
+
+                    if (!gestor.login(user, pass)) {
+                        JOptionPane.showMessageDialog(null, "Usuario y/o pass incorrectos!", "Login", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        parent.dispose();
+                        new JFramePrincipal(gestor).setVisible(true);
+                    }
+                } catch (RuntimeException re) {
+                    re.printStackTrace();
+                    JOptionPane.showMessageDialog(parent, re.getMessage(), "Error al intentar acceder", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }

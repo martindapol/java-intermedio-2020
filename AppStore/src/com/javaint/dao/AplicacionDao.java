@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface AplicacionDao {
     public List<Aplicacion> getAplicacionesDisponibles(int idUsuario);
+    public List<Aplicacion> getAplicacionesDisponiblesFiltradas(int idUsuario, String filtro);
     public Aplicacion getAplicacionById(int id);
     
 }
